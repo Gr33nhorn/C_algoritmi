@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define MAX_STRING_LENGTH 6
 
 struct package
@@ -41,14 +42,12 @@ void print_all_packages(town t) {
 	}
 }
 
-void send_all_acceptable_packages(town* source, int source_office_index, town* target, int target_office_index) {
-		
-}
-
-town town_with_most_packages(town* towns, int towns_count) {
-}
-
 town* find_town(town* towns, int towns_count, char* name) {
+	for(int i = 0; i < towns_count; i++){
+		if(!strcmp(towns[i].name, name)){
+			return &towns[i];
+		} 
+	}
 }
 
 int main()
@@ -84,22 +83,6 @@ int main()
 			scanf("%s", town_name);
 			town* t = find_town(towns, towns_count, town_name);
 			print_all_packages(*t);
-			break;
-		case 2:
-			scanf("%s", town_name);
-			town* source = find_town(towns, towns_count, town_name);
-			int source_index;
-			scanf("%d", &source_index);
-			scanf("%s", town_name);
-			town* target = find_town(towns, towns_count, town_name);
-			int target_index;
-			scanf("%d", &target_index);
-			printf("\n");
-			send_all_acceptable_packages(source, source_index, target, target_index);
-			break;
-		case 3:
-			
-			printf("\nTown with the most number of packages is %s\n", town_with_most_packages(towns, towns_count).name);
 			break;
 		}
 	}
