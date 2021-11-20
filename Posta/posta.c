@@ -43,7 +43,24 @@ void print_all_packages(town t) {
 }
 
 void send_all_acceptable_packages(town* source, int source_office_index, town* target, int target_office_index) {
-		
+
+	int stevilo_target = target -> offices[ target_office_index ].packages_count;
+	int stevilo_source = source -> offices[ source_office_index ].packages_count;
+	int target_max_teza = target -> offices[ target_office_index ].max_weight;
+	int target_min_teza = target -> offices[ target_office_index ].min_weight;
+	package* target_paketi = target -> offices[ target_office_index ].packages;
+	package* source_paketi = source -> offices[ source_office_index].packages;
+	
+	
+	for( int i = 0; i < stevilo_source; i++ ) {
+		if( source -> offices[ source_office_index ].packages[ i ].weight >= target_min_teza && source -> offices[ source_office_index ].packages[ i ].weight <= target_max_teza ) {
+		    	target -> offices[ target_office_index ].packages = realloc(target -> offices[ target_office_index ].packages,sizeof(package)*( stevilo_target + 90 )); 
+		    	if(target -> offices[ target_office_index ].packages == NULL) {printf("Prdec\n");}
+			else {target -> offices[ target_office_index ].packages[ stevilo_target ] = source_paketi[ i ];
+				printf("%s\n", target -> offices[ target_office_index ].packages[stevilo_target].id);		
+				stevilo_target++;}
+		}
+	}		
 }
 
 town town_with_most_packages(town* towns, int towns_count) {
@@ -69,6 +86,7 @@ town* find_town(town* towns, int towns_count, char* name) {
 			return &towns[i];
 		} 
 	}
+	return 0;
 }
 
 int main()
