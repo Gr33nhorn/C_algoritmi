@@ -44,21 +44,14 @@ void print_all_packages(town t) {
 
 void send_all_acceptable_packages(town* source, int source_office_index, town* target, int target_office_index) {
 
-	int stevilo_target = target -> offices[ target_office_index ].packages_count;
-	int stevilo_source = source -> offices[ source_office_index ].packages_count;
-	int target_max_teza = target -> offices[ target_office_index ].max_weight;
-	int target_min_teza = target -> offices[ target_office_index ].min_weight;
-	package* target_paketi = target -> offices[ target_office_index ].packages;
-	package* source_paketi = source -> offices[ source_office_index].packages;
+
 	
 	
-	for( int i = 0; i < stevilo_source; i++ ) {
-		if( source -> offices[ source_office_index ].packages[ i ].weight >= target_min_teza && source -> offices[ source_office_index ].packages[ i ].weight <= target_max_teza ) {
-		    	target -> offices[ target_office_index ].packages = realloc(target -> offices[ target_office_index ].packages,sizeof(package)*( stevilo_target + 90 )); 
-		    	if(target -> offices[ target_office_index ].packages == NULL) {printf("Prdec\n");}
-			else {target -> offices[ target_office_index ].packages[ stevilo_target ] = source_paketi[ i ];
-				printf("%s\n", target -> offices[ target_office_index ].packages[stevilo_target].id);		
-				stevilo_target++;}
+	for( int i = 0; i < source -> offices[ source_office_index ].packages_count; i++ ) {
+		if( source -> offices[ source_office_index ].packages[ i ].weight >= target -> offices[ target_office_index ].min_weight && source -> offices[ source_office_index ].packages[ i ].weight <= target -> offices[ target_office_index ].max_weight ) {
+			target -> offices[ target_office_index ].packages[ target -> offices[ target_office_index ].packages_count ] = source -> offices[ source_office_index].packages[i];
+		
+				(target -> offices[ target_office_index ].packages_count)++;
 		}
 	}		
 }
@@ -103,7 +96,7 @@ int main()
 		towns[i].offices = malloc(sizeof(post_office)*towns[i].offices_count);
 		for (int j = 0; j < towns[i].offices_count; j++) {
 			scanf("%d%d%d", &towns[i].offices[j].packages_count, &towns[i].offices[j].min_weight, &towns[i].offices[j].max_weight);
-			towns[i].offices[j].packages = malloc(sizeof(package)*towns[i].offices[j].packages_count);
+			towns[i].offices[j].packages = malloc(sizeof(package)*(towns[i].offices[j].packages_count+4));
 			for (int k = 0; k < towns[i].offices[j].packages_count; k++) {
 				towns[i].offices[j].packages[k].id = malloc(sizeof(char) * MAX_STRING_LENGTH);
 				scanf("%s", towns[i].offices[j].packages[k].id);
